@@ -1,131 +1,108 @@
-require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
-const sqlite3 = require('sqlite3').verbose();
-const app = express();
-const port = 25570;
 const session = require('express-session');
+const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt');
+require('dotenv').config();
 
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+const app = express();
+const port = process.env.PORT || 3000;
+const db = new sqlite3.Database('users.db');
+
+app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'VelocityDashboard_Default_Key@',
+    secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
     saveUninitialized: true
 }));
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
-const panelUrl = process.env.PANEL_URL;
-const apiKey = process.env.API_KEY;
-
-const db = new sqlite3.Database('users.db', (err) => {
-    if (err) {
-        console.error("Error opening database:", err.message);
-        process.exit(1);
-    }
-    db.run(`CREATE TABLE IF NOT EXISTS users (
+db.run(`
+    CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT UNIQUE NOT NULL,
         username TEXT UNIQUE NOT NULL,
         firstName TEXT NOT NULL,
         lastName TEXT NOT NULL,
         password TEXT NOT NULL
-    )`);
+    )
+`);
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/home.html');
 });
 
-async function initializeFetch() {
-    try {
-        global.fetch = (await import('node-fetch')).default;
-    } catch (err) {
-        console.error("Failed to import fetch:", err);
-        process.exit(1);
-    }
-}
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/public/login.html');
+});
 
-initializeFetch().then(() => {
-    app.post('/register', async (req, res) => {
-        const { email, username, firstName, lastName, password } = req.body;
-
-        if (!email || !username || !firstName || !lastName || !password) {
-            return res.render('error', { message: "Please fill in all fields." });
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
+        if (err) {
+            console.error(err);
+            return res.redirect('/login');
         }
-
-        try {
-            const response = await fetch(`${panelUrl}/api/application/users`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    email,
-                    username,
-                    first_name: firstName,
-                    last_name: lastName,
-                    password
-                })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json()
-                return res.render('error', { message: `Error creating user: ${response.status} ${JSON.stringify(errorData)}` });
-            }
-            db.run('INSERT INTO users (email, username, firstName, lastName, password) VALUES (?, ?, ?, ?, ?)', [email, username, firstName, lastName, password], (err) => {
-                if (err) {
-                    console.error("Error inserting user into database:", err.message);
-                    return res.render('error', { message: "Error creating user." });
-                }
-                res.redirect('/login');
-            });
-        } catch (error) {
-            console.error("Error during registration:", error);
-            res.render('error', { message: "An error occurred during registration." });
+        if (!row || !bcrypt.compareSync(password, row.password)) {
+            return res.redirect('/login');
         }
+        req.session.authenticated = true;
+        req.session.username = row.username;
+        res.redirect('/dashboard');
     });
+});
 
-    app.post('/login', (req, res) => {
-        const { username, password } = req.body;
-        db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, row) => {
+app.get('/register', (req, res) => {
+    res.sendFile(__dirname + '/public/register.html');
+});
+
+app.post('/register', (req, res) => {
+    const { email, username, firstName, lastName, password } = req.body;
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+        if (err) {
+            console.error(err);
+            return res.redirect('/register');
+        }
+        db.run('INSERT INTO users (email, username, firstName, lastName, password) VALUES (?, ?, ?, ?, ?)', [email, username, firstName, lastName, hashedPassword], (err) => {
             if (err) {
-                console.error("Error during login:", err.message);
-                return res.render('error', { message: "Login error." });
+                console.error(err);
+                return res.redirect('/register');
             }
-            if (row) {
-                req.session.username = row.username;
-                res.redirect('/dashboard');
-            } else {
-                res.render('error', { message: "Invalid username or password." });
-            }
+            res.redirect('/login');
         });
     });
+});
 
-    app.get('/dashboard', (req, res) => {
-        if (req.session.username) {
-            res.render('dashboard', { username: req.session.username });
-        } else {
-            res.redirect('/login');
+app.get('/dashboard', (req, res) => {
+    if (req.session.authenticated) {
+        res.render('dashboard', { username: req.session.username, errorMessage: null });
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.get('/panelUrl', (req, res) => {
+    res.json({ panelUrl: process.env.PANEL_URL });
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error destroying session:", err);
         }
+        res.redirect('/');
     });
+});
 
-    app.get('/', (req, res) => {
-        res.sendFile(__dirname + '/public/home.html');
-    });
+app.use((req, res) => {
+    res.status(404).sendFile(__dirname + '/public/404.html');
+});
 
-    app.get('/register', (req, res) => {
-        res.sendFile(__dirname + '/public/register.html');
-    });
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).sendFile(__dirname + '/public/500.html');
+});
 
-    app.get('/login', (req, res) => {
-        res.sendFile(__dirname + '/public/login.html');
-    });
-
-    app.use((req, res) => {
-        res.status(404).sendFile(__dirname + '/public/404.html');
-    });
-
-    app.listen(port, () => {
-        console.log(`Server listening at http://localhost:${port}`);
-    });
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
