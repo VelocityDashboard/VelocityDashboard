@@ -1,46 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VelocityDashboard - Home</title>
     <style>
         body {
-            font-family: sans-serif;
-            text-align: center;
-            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
             margin: 0;
+            background: linear-gradient(to bottom right, #283cbb, #8e0e00);
+            color: #fff;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow: hidden;
         }
-        h1 {
-          color: #333;
-        }
-        .container {
+
+        .hero {
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            flex-grow: 1;
+            text-align: center;
+            padding: 2rem;
         }
-        .button {
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cta-button {
             display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #4CAF50;
-            color: white;
+            padding: 1rem 2rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 0.3rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: background-color 0.3s, transform 0.2s;
         }
-        .button:hover {
-            background-color: #45a049;
+
+        .cta-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        footer a {
+            color: #eee;
+            text-decoration: none;
+            margin: 0 0.5rem;
         }
     </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to VelocityDashboard</h1>
-    <a class="button" href="/register">Register</a>
-    <a class="button" href="/login">Login</a>
-  </div>
+    <section class="hero">
+        <h1>VelocityDashboard</h1>
+        <p>The simplest yet speedest Dashboard for your hosting!</p>
+        <div class="cta-buttons">
+            <a href="/login" class="cta-button">Login</a>
+            <a href="/register" class="cta-button">Register</a>
+        </div>
+    </section>
+    <footer>
+        &copy; 2023 VelocityDashboard. All rights reserved.</a>
+    </footer>
+    <script src="/ConsoleWarning.js"></script>
 </body>
 </html>
