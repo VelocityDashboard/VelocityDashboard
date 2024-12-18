@@ -2,10 +2,11 @@ const express = require('express');
 const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 3000;
 const db = new sqlite3.Database('users.db');
 
 app.use(express.urlencoded({ extended: true }));
@@ -56,21 +57,59 @@ app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/public/register.html');
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
     const { email, username, firstName, lastName, password } = req.body;
-    bcrypt.hash(password, 10, (err, hashedPassword) => {
-        if (err) {
-            console.error(err);
-            return res.redirect('/register');
+
+    try {
+        const pterodactylApiKey = process.env.API_KEY;
+        const pterodactylPanelUrl = process.env.PANEL_URL;
+
+        if (!pterodactylApiKey || !pterodactylPanelUrl) {
+          return res.render('register', { errorMessage: "Pterodactyl API Key or Panel URL not configured." });
         }
-        db.run('INSERT INTO users (email, username, firstName, lastName, password) VALUES (?, ?, ?, ?, ?)', [email, username, firstName, lastName, hashedPassword], (err) => {
+
+        const pterodactylUser = {
+            email,
+            username,
+            first_name: firstName,
+            last_name: lastName,
+            password,
+        };
+
+        const pterodactylResponse = await fetch(`${pterodactylPanelUrl}/api/application/users`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${pterodactylApiKey}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(pterodactylUser)
+        });
+
+        if (!pterodactylResponse.ok) {
+            const errorData = await pterodactylResponse.json();
+            console.error("Pterodactyl API Error:", errorData);
+            return res.render('register', { errorMessage: "Error creating account on the panel." });
+        }
+
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
             if (err) {
                 console.error(err);
-                return res.redirect('/register');
+                return res.render('register', { errorMessage: "Error creating local account."});
             }
-            res.redirect('/login');
+            db.run('INSERT INTO users (email, username, firstName, lastName, password) VALUES (?, ?, ?, ?, ?)', [email, username, firstName, lastName, hashedPassword], (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.render('register', { errorMessage: "Error creating local account."});
+                }
+                res.redirect('/login');
+            });
         });
-    });
+
+    } catch (error) {
+        console.error("Error during registration:", error);
+        res.render('register', { errorMessage: "An unexpected error occurred during registration." });
+    }
 });
 
 app.get('/dashboard', (req, res) => {
