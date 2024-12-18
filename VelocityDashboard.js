@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 const db = new sqlite3.Database('users.db');
 
 app.use(express.urlencoded({ extended: true }));
