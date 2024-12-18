@@ -1,6 +1,4 @@
-You're right, prioritizing the installation and configuration is more logical for documentation. Here's the revised structure:
-
-## VelocityDashboard Documentation
+## VelocityDashboard Documentation (NOTE: This is the V 1.0.0, so don't expect there not to be bugs!)
 
 VelocityDashboard simplifies game server management, especially for Pterodactyl Panel. This documentation covers setup and usage of VelocityDashboard V1, focusing on user registration and login.
 
