@@ -5,18 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        :root { --primary-color: #673ab7; --secondary-color: #424242; --text-color: #eee; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; min-height: 100vh; background-color: #303030; color: var(--text-color); overflow: hidden; }
-        .sidebar { width: 260px; background-color: var(--secondary-color); padding: 20px; box-sizing: border-box; overflow-y: auto; position: fixed; height: 100%; border-right: 1px solid #333; }
-        .sidebar h2 { margin-top: 0; margin-bottom: 30px; color: var(--text-color); font-weight: 600; }
-        .sidebar a { display: block; padding: 10px 15px; margin-bottom: 8px; background-color: #333; color: var(--text-color); text-decoration: none; border-radius: 4px; transition: background-color 0.2s ease, transform 0.1s ease; }
-        .sidebar a:hover { background-color: var(--primary-color); transform: scale(1.01); }
-        .sidebar a.disabled { background-color: #555; color: #888; cursor: default; pointer-events: none; }
-        .content { flex-grow: 1; padding: 30px; margin-left: 260px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .content h1 { font-size: 2.8em; margin-bottom: 20px; color: var(--text-color); }
-        footer { background-color: var(--secondary-color); padding: 15px; text-align: center; width: 100%; box-sizing: border-box; position: fixed; bottom: 0; border-top: 1px solid #333; }
-        footer a { color: #aaa; text-decoration: none; margin: 0 10px; }
-        .error-message { color: #ff5733; margin-top: 20px; }
+        :root {
+            --primary-color: #673ab7;
+            --secondary-color: rgba(0, 0, 0, 0.5);
+            --text-color: #eee;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background: linear-gradient(to bottom right, #283cbb, #8e0e00);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .sidebar a.disabled {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #888;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content h1 {
+            color: var(--text-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .error-message {
+            color: red;
+            margin-top: 1rem;
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+        }
+
+        footer a {
+            color: #eee;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -24,9 +95,10 @@
         <h2>Navigation</h2>
         <a id="panelLink" href="#">Panel</a>
         <a href="/">Home</a>
+        <a href="/logout">Logout</a>
     </div>
     <div class="content">
-        <h1>Hello, <%= username %>!</h1>
+        <h1>Welcome, <%= username %>!</h1>
         <% if (errorMessage) { %>
             <p class="error-message"><%= errorMessage %></p>
         <% } %>
@@ -34,7 +106,6 @@
     <footer>
         &copy; 2023 VelocityDashboard. All rights reserved.</a>
     </footer>
-
     <script>
         fetch('/panelUrl')
             .then(response => response.json())
@@ -54,5 +125,6 @@
                 panelLink.classList.add('disabled');
             });
     </script>
+    <script src="/ConsoleWarning.js"></script>
 </body>
 </html>
