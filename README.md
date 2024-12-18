@@ -29,7 +29,7 @@ VelocityDashboard simplifies game server management, especially for Pterodactyl 
     ```bash
     sudo mkdir -p /var/www/VelocityDashboard
     cd /var/www/
-    sudo curl -L https://github.com/VelocityDashboard/VelocityDashboard/archive/refs/tags/VelocityDashboard.zip -o VelocityDashboard.zip # Replace with your ZIP URL
+    sudo curl -L https://github.com/VelocityDashboard/VelocityDashboard/archive/refs/tags/VelocityDashboard_V_1.1.0.zip -o VelocityDashboard.zip # Replace with your ZIP URL
     sudo unzip VelocityDashboard.zip
     sudo rm VelocityDashboard.zip
     sudo chown -R $USER:$USER /var/www/VelocityDashboard # Give current user ownership
