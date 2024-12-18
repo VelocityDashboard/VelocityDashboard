@@ -1,34 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VelocityDashboard - Register</title>
     <style>
-        :root { --primary-color: #009688; --secondary-color: #424242; --text-color: #eee; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; min-height: 100vh; background-color: #303030; color: var(--text-color); overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .content { display: flex; flex-direction: column; align-items: center; background-color: var(--secondary-color); padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
-        h1 { color: var(--primary-color); }
-        form { width: 100%; max-width: 400px; box-sizing: border-box; }
-        label { display: block; margin-bottom: 8px; color: #ddd; }
-        input[type="text"], input[type="password"], input[type="email"] { width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #555; border-radius: 4px; background-color: #444; color: #eee; box-sizing: border-box; }
-        button { background-color: var(--primary-color); color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease; width: 100%; }
-        button:hover { background-color: #00796b; }
-        .link { margin-top: 20px; color: #aaa; }
-        .link a { color: var(--primary-color); text-decoration: none; }
-        .icon { margin-right: 5px; }
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background: linear-gradient(to bottom right, #283cbb, #8e0e00);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .register-container {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            color: #eee;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            color: #ddd;
+        }
+
+        input[type="email"],
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 1.2rem);
+            padding: 0.6rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 0.3rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #eee;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #673ab7;
+            color: #fff;
+            border: none;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #512da8;
+        }
+
+        .links {
+            margin-top: 1rem;
+            color: #aaa;
+        }
+
+        .links a {
+            color: #673ab7;
+            text-decoration: none;
+        }
+        .error-message {
+            color: red;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
-    <div class="content">
-        <h1><span class="icon">📝</span> Register</h1>
+    <div class="register-container">
+        <h2>Register</h2>
+        <% if (errorMessage) { %>
+            <p class="error-message"><%= errorMessage %></p>
+        <% } %>
         <form action="/register" method="post">
-            <label for="email"><span class="icon">📧</span> Email:</label><input type="email" id="email" name="email" placeholder="Email" required><br><br>
-            <label for="username"><span class="icon">👤</span> Username:</label><input type="text" id="username" name="username" placeholder="Username" required><br><br>
-            <label for="firstName"><span class="icon">🔤</span> First Name:</label><input type="text" id="firstName" name="firstName" placeholder="First Name" required><br><br>
-            <label for="lastName"><span class="icon">🔤</span> Last Name:</label><input type="text" id="lastName" name="lastName" placeholder="Last Name" required><br><br>
-            <label for="password"><span class="icon">🔒</span> Password:</label><input type="password" id="password" name="password" placeholder="Password" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required><br><br>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required><br><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+
             <button type="submit">Register</button>
         </form>
-        <div class="link"><a href="/login">Already have an account? Login</a><br><a href="/">Back to Home</a></div>
+        <div class="links">
+            <a href="/login">Login</a> | <a href="/">Home</a>
+        </div>
     </div>
+    <script src="/ConsoleWarning.js"></script>
 </body>
 </html>
