@@ -33,7 +33,7 @@ VelocityDashboard simplifies game server management, especially for Pterodactyl 
     sudo unzip VelocityDashboard.zip
     sudo rm VelocityDashboard.zip
     sudo chown -R $USER:$USER /var/www/VelocityDashboard # Give current user ownership
-    cd /var/www/VelocityDashboard/VelocityDashboard-main/
+    cd /var/www/VelocityDashboard/VelocityDashboard-main
     npm install
     ```
 
@@ -62,8 +62,8 @@ Description=VelocityDashboard
 After=network.target
 
 [Service]
-User=$USER
-WorkingDirectory=/var/www/VelocityDashboard
+User=root
+WorkingDirectory=/var/www/VelocityDashboard/VelocityDashboard-main
 ExecStart=/usr/bin/node VelocityDashboard.js
 Restart=always
 Environment=NODE_ENV=production
