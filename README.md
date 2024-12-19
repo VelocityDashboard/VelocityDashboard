@@ -87,13 +87,15 @@ sudo systemctl status velocitydashboard
 *   User Login
 *   Secure API Interaction (server-side)
 *   SQLite3 Database Integration
+*   Added middleware auth.js
+*   Improved UI
+*   More stable and faster
 
 ### 5. Troubleshooting
 
 *   "Cannot find module 'sqlite3'": Reinstall `sqlite3`. Check `node_modules`.
 *   Other Errors: Check the server console (`sudo journalctl -u velocitydashboard`).
 *   API Errors: Verify `PANEL_URL` and `API_KEY`. Check API key permissions.
-*   Nginx Errors: Check Nginx error logs (`/var/log/nginx/error.log`).
 
 ### 7. Future Development
 
