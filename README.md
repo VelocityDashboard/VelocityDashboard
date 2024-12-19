@@ -45,8 +45,8 @@ VelocityDashboard simplifies game server management, especially for Pterodactyl 
     ```
     PANEL_URL=YOUR_PTERODACTYL_PANEL_URL
     API_KEY=YOUR_PTERODACTYL_API_KEY
-    PORT=YOUR_PORT_FOR_THE_DASHBOARD_TO_BE_HOSTED_ON
-    SESSION_SECRET=RANDOM_SESSION_SECRET
+    PORT=3000 (You can run it on any port, 3000 is the default port)
+    SESSION_SECRET=22 5 12 15 3 9 20 25 4 1 19 8 2 15 1 18 4 (Change this !)
     ```
 
     **Important:** Never expose your API key client-side.
