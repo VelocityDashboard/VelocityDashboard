@@ -10,11 +10,10 @@ VelocityDashboard simplifies game server management, especially for Pterodactyl 
     *   Registration
     *   Login
     *   Dashboard
-4.  Nginx Configuration
-5.  Systemd Service
-6.  Features (V1)
-7.  Troubleshooting
-8.  Future Development
+4.  Systemd Service
+5.  Features (V1)
+6.  Troubleshooting
+7.  Future Development
 
 ### 1. Installation
 
@@ -52,7 +51,7 @@ VelocityDashboard simplifies game server management, especially for Pterodactyl 
 
     **Important:** Never expose your API key client-side.
 
-### 3. Systemd Service
+### 4. Systemd Service
 
 Create `/etc/systemd/system/velocitydashboard.service`:
 
@@ -81,7 +80,7 @@ sudo systemctl start velocitydashboard
 sudo systemctl status velocitydashboard
 ```
 
-### 4. Features (V1)
+### 5. Features (V1)
 
 *   User Registration (with Pterodactyl Panel integration)
 *   User Login
@@ -90,8 +89,9 @@ sudo systemctl status velocitydashboard
 *   Added middleware auth.js
 *   Improved UI
 *   More stable and faster
+*   Security Status: Stable
 
-### 5. Troubleshooting
+### 6. Troubleshooting
 
 *   "Cannot find module 'sqlite3'": Reinstall `sqlite3`. Check `node_modules`.
 *   Other Errors: Check the server console (`sudo journalctl -u velocitydashboard`).
@@ -103,3 +103,8 @@ sudo systemctl status velocitydashboard
 *   Resource monitoring
 *   In-dashboard user management
 *   UI/UX improvements
+*   Server creation
+*   Ad detector
+*   VPN blocker
+*   Temp mail detector
+*   Higher seurity
