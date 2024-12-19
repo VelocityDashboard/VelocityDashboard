@@ -4,6 +4,7 @@ const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 require('dotenv').config();
+const isAuthenticated = require('./middleware/auth');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -112,12 +113,8 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.get('/dashboard', (req, res) => {
-    if (req.session.authenticated) {
-        res.render('dashboard', { username: req.session.username, errorMessage: null });
-    } else {
-        res.redirect('/login');
-    }
+app.get('/dashboard', isAuthenticated, (req, res) => {
+    res.send('Dashboard');
 });
 
 app.get('/panelUrl', (req, res) => {
