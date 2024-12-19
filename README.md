@@ -28,8 +28,8 @@ VelocityDashboard simplifies game server management, especially for Pterodactyl 
 
     ```bash
     sudo mkdir -p /var/www/VelocityDashboard
-    cd /var/www/
-    sudo curl -L https://github.com/user-attachments/files/18188108/VelocityDashboard.zip -o VelocityDashboard.zip # Replace with your ZIP URL
+    cd /var/www/VelocityDashboard
+    sudo curl -L https://github.com/user-attachments/files/18188108/VelocityDashboard.zip -o VelocityDashboard.zip
     sudo unzip VelocityDashboard.zip
     sudo rm VelocityDashboard.zip
     sudo chown -R $USER:$USER /var/www/VelocityDashboard # Give current user ownership
@@ -41,7 +41,7 @@ VelocityDashboard simplifies game server management, especially for Pterodactyl 
 
 ### 2. Configuration
 
-1.  `.env` File: Create `.env` in `/var/www/VelocityDashboard/`:
+1.  `.env` File: Config `.env` in `/var/www/VelocityDashboard/`:
 
     ```
     PANEL_URL=YOUR_PTERODACTYL_PANEL_URL
