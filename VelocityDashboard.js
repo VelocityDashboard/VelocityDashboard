@@ -11,7 +11,7 @@ const db = new sqlite3.Database('users.db');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'your_secret_key',
+    secret: process.env.SESSION_SECRET || '22 5 12 15 3 9 20 25 4 1 19 8 2 15 1 18 4',
     resave: false,
     saveUninitialized: true
 }));
