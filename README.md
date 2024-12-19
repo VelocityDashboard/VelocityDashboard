@@ -33,7 +33,7 @@ VelocityDashboard simplifies game server management, especially for Pterodactyl 
     sudo unzip VelocityDashboard.zip
     sudo rm VelocityDashboard.zip
     sudo chown -R $USER:$USER /var/www/VelocityDashboard # Give current user ownership
-    cd /var/www/VelocityDashboard
+    cd /var/www/VelocityDashboard/VelocityDashboard-main/
     npm install
     ```
 
@@ -52,47 +52,7 @@ VelocityDashboard simplifies game server management, especially for Pterodactyl 
 
     **Important:** Never expose your API key client-side.
 
-### 3. Nginx Configuration
-
-Create `/etc/nginx/sites-available/velocitydashboard` (or add to existing config):
-
-```nginx
-server {
-    listen 80;
-    server_name dash.yourdomain.com;
-
-    access_log /var/log/nginx/velocitydashboard_access.log;
-
-    location / {
-        proxy_pass http://127.0.0.1:80/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_buffering off;
-    }
-
-    location /public/ {
-        root /var/www/VelocityDashboard/public/;
-        index index.html index.htm;
-        try_files $uri $uri/ /index.html;
-    }
-
-    error_page 404 /var/www/VelocityDashboard/public/404.html;
-    error_page 500 502 503 504 /var/www/VelocityDashboard/public/500.html;
-    location = /500.html {
-        root /var/www/VelocityDashboard/public/;
-    }
-}
-```
-
-Enable the configuration:
-
-```bash
-sudo ln -s /etc/nginx/sites-available/velocitydashboard /etc/nginx/sites-enabled/
-sudo nginx -t # Test configuration
-sudo systemctl restart nginx
-```
-
-### 4. Systemd Service
+### 3. Systemd Service
 
 Create `/etc/systemd/system/velocitydashboard.service`:
 
@@ -121,14 +81,14 @@ sudo systemctl start velocitydashboard
 sudo systemctl status velocitydashboard
 ```
 
-### 5. Features (V1)
+### 4. Features (V1)
 
 *   User Registration (with Pterodactyl Panel integration)
 *   User Login
 *   Secure API Interaction (server-side)
 *   SQLite3 Database Integration
 
-### 6. Troubleshooting
+### 5. Troubleshooting
 
 *   "Cannot find module 'sqlite3'": Reinstall `sqlite3`. Check `node_modules`.
 *   Other Errors: Check the server console (`sudo journalctl -u velocitydashboard`).
