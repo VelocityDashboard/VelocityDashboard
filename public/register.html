@@ -4,121 +4,238 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VelocityDashboard - Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #673ab7;
-            --secondary-color: rgba(0, 0, 0, 0.5);
-            --text-color: #eee;
-            --background-gradient-start: #283cbb;
-            --background-gradient-end: #8e0e00;
+            --primary: #4f46e5;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --background: #0f172a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --input-bg: rgba(30, 41, 59, 0.95);
+            --error: #ef4444;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * {
             margin: 0;
-            background: linear-gradient(to bottom right, var(--background-gradient-start), var(--background-gradient-end));
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .register-container {
-            background-color: var(--secondary-color);
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
-            width: 90%;
-            max-width: 350px;
-            text-align: center;
-        }
-
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        label {
-            display: block;
-            text-align: left;
-            margin-bottom: 0.5rem;
-            color: #ddd;
-            font-size: 0.9rem;
-        }
-
-        input[type="email"],
-        input[type="text"],
-        input[type="password"] {
-            width: calc(100% - 1rem);
-            padding: 0.6rem;
-            margin-bottom: 0.8rem;
-            border: none;
-            border-radius: 0.3rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #eee;
+            padding: 0;
             box-sizing: border-box;
         }
-
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.1) 25%, rgba(15, 23, 42, 0) 50%);
+            z-index: 0;
+        }
+        .register-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1;
+            animation: fadeIn 0.6s ease-out;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .logo {
+            font-size: 2rem;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        input {
+            width: 100%;
+            padding: 0.625rem 0.75rem 0.625rem 2.25rem;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
         input:focus {
             outline: none;
-            border: 1px solid var(--primary-color);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
         }
-
+        input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+        .name-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
         button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.7rem 1rem;
-            border: none;
-            border-radius: 0.3rem;
-            cursor: pointer;
-            font-size: 1rem;
             width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0.75rem;
         }
-
         button:hover {
-            background-color: #512da8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
-
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        button:hover::before {
+            transform: translateX(100%);
+        }
         .links {
             margin-top: 1rem;
-            color: #aaa;
-            font-size: 0.85rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
         }
-
         .links a {
-            color: var(--primary-color);
+            color: var(--accent);
             text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .links a:hover {
+            color: var(--text-primary);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @media (max-width: 480px) {
+            .register-container {
+                padding: 1.5rem;
+            }
+            .name-group {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="background"></div>
     <div class="register-container">
-        <h1>Register</h1>
+        <div class="logo-container">
+            <i class="fas fa-tachometer-alt logo"></i>
+        </div>
+        <h2>Create Account</h2>
         <form action="/register" method="post">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Email" required><br>
-
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Username" required><br>
-
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" placeholder="First Name" required><br>
-
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required><br>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Password" required><br>
-
-            <button type="submit">Register</button>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                </div>
+            </div>
+            <div class="name-group">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-id-card"></i>
+                        <input type="text" id="firstName" name="firstName" placeholder="First name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-id-card"></i>
+                        <input type="text" id="lastName" name="lastName" placeholder="Last name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
+                </div>
+            </div>
+            <button type="submit">Create Account <i class="fas fa-arrow-right ml-2"></i></button>
         </form>
         <div class="links">
-            <a href="/login">Already have an account? Login</a><br>
-            <a href="/">Back to Home</a>
+            <a href="/login">Already have an account? Sign in</a> • <a href="/">Back to home</a>
         </div>
     </div>
     <script src="/ConsoleWarning.js"></script>
