@@ -1,4 +1,4 @@
-## VelocityDashboard Documentation (NOTE: This is the V1 so don't expect there not to be bugs!)
+## VelocityDashboard Documentation
 
 VelocityDashboard simplifies game server management, especially for Pterodactyl Panel. This documentation covers setup and usage of VelocityDashboard V1, focusing on user registration and login.
 
