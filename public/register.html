@@ -5,11 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VelocityDashboard - Register</title>
     <style>
+        :root {
+            --primary-color: #673ab7;
+            --secondary-color: rgba(0, 0, 0, 0.5);
+            --text-color: #eee;
+            --background-gradient-start: #283cbb;
+            --background-gradient-end: #8e0e00;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            background: linear-gradient(to bottom right, #283cbb, #8e0e00);
-            color: #fff;
+            background: linear-gradient(to bottom right, var(--background-gradient-start), var(--background-gradient-end));
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -19,19 +27,19 @@
         }
 
         .register-container {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: var(--secondary-color);
             padding: 2rem;
             border-radius: 0.5rem;
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
             width: 90%;
-            max-width: 400px;
+            max-width: 350px;
             text-align: center;
         }
 
-        h2 {
-            margin-bottom: 1.5rem;
-            color: #eee;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
         }
 
         label {
@@ -39,14 +47,15 @@
             text-align: left;
             margin-bottom: 0.5rem;
             color: #ddd;
+            font-size: 0.9rem;
         }
 
         input[type="email"],
         input[type="text"],
         input[type="password"] {
-            width: calc(100% - 1.2rem);
+            width: calc(100% - 1rem);
             padding: 0.6rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             border: none;
             border-radius: 0.3rem;
             background-color: rgba(255, 255, 255, 0.1);
@@ -54,15 +63,20 @@
             box-sizing: border-box;
         }
 
+        input:focus {
+            outline: none;
+            border: 1px solid var(--primary-color);
+        }
+
         button {
-            width: 100%;
-            padding: 0.8rem;
-            background-color: #673ab7;
-            color: #fff;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.7rem 1rem;
             border: none;
             border-radius: 0.3rem;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-size: 1rem;
+            width: 100%;
         }
 
         button:hover {
@@ -72,44 +86,39 @@
         .links {
             margin-top: 1rem;
             color: #aaa;
+            font-size: 0.85rem;
         }
 
         .links a {
-            color: #673ab7;
+            color: var(--primary-color);
             text-decoration: none;
-        }
-        .error-message {
-            color: red;
-            margin-top: 0.5rem;
         }
     </style>
 </head>
 <body>
     <div class="register-container">
-        <h2>Register</h2>
-        <% if (errorMessage) { %>
-            <p class="error-message"><%= errorMessage %></p>
-        <% } %>
+        <h1>Register</h1>
         <form action="/register" method="post">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <input type="email" id="email" name="email" placeholder="Email" required><br>
 
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br><br>
+            <input type="text" id="username" name="username" placeholder="Username" required><br>
 
             <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" required><br><br>
+            <input type="text" id="firstName" name="firstName" placeholder="First Name" required><br>
 
             <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" required><br><br>
+            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required><br>
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
+            <input type="password" id="password" name="password" placeholder="Password" required><br>
 
             <button type="submit">Register</button>
         </form>
         <div class="links">
-            <a href="/login">Login</a> | <a href="/">Home</a>
+            <a href="/login">Already have an account? Login</a><br>
+            <a href="/">Back to Home</a>
         </div>
     </div>
     <script src="/ConsoleWarning.js"></script>
