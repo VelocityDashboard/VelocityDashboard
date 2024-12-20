@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VelocityDashboard - Roadmap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --background: #0f172a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --input-bg: rgba(30, 41, 59, 0.95);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.1) 25%, rgba(15, 23, 42, 0) 50%);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .logo {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .timeline {
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            opacity: 0.3;
+        }
+
+        .version-block {
+            position: relative;
+            padding-left: 2rem;
+            padding-bottom: 2rem;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .version-block::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--background);
+        }
+
+        .version-tag {
+            display: inline-flex;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .version-tag i {
+            margin-right: 0.5rem;
+            color: var(--accent);
+        }
+
+        .planned-date {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .feature-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-list i {
+            margin-top: 0.25rem;
+            color: var(--accent);
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        .tag-planned {
+            background: rgba(79, 70, 229, 0.2);
+            color: var(--primary);
+        }
+
+        .tag-upcoming {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .feature-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <header class="header">
+            <i class="fas fa-road logo"></i>
+            <h1>Development Roadmap</h1>
+            <p class="subtitle">The future of VelocityDashboard</p>
+        </header>
+
+        <div class="timeline">
+            <div class="version-block">
+                <div class="version-tag">
+                    <i class="fas fa-code-branch"></i>
+                    Version 2.x
+                </div>
+                <div class="planned-date">Planned Features</div>
+                <div class="feature-content">
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-chart-line"></i>
+                            <span>Resource monitoring and analytics <span class="tag tag-planned">Planned</span></span>
+                        </li>
+                        <li>
+                            <i class="fas fa-users-cog"></i>
+                            <span>In-dashboard user management system</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Enhanced UI/UX improvements</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Advanced security enhancements</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-user-shield"></i>
+                            <span>Ad detector and VPN blocker implementation</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope-open-text"></i>
+                            <span>Temporary email detection system</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-block">
+                <div class="version-tag">
+                    <i class="fas fa-code-branch"></i>
+                    Version 3.0
+                </div>
+                <div class="planned-date">Future Release</div>
+                <div class="feature-content">
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-server"></i>
+                            <span>Server creation and management system <span class="tag tag-upcoming">V3</span></span>
+                        </li>
+                        <li>
+                            <i class="fas fa-database"></i>
+                            <span>Migration to Firebase database <span class="tag tag-upcoming">V3</span></span>
+                        </li>
+                        <li>
+                            <i class="fas fa-cogs"></i>
+                            <span>Advanced server management tools</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
