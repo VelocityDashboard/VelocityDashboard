@@ -16,12 +16,15 @@
             --text-secondary: #94a3b8;
             --hover-bg: rgba(79, 70, 229, 0.2);
             --hover-text: #ffffff;
+            --error: #ef4444;
+            --success: #22c55e;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
         body {
@@ -30,104 +33,127 @@
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
         .container {
             display: flex;
             width: 100%;
-            height: 100%;
+            position: relative;
         }
 
         .sidebar {
             width: 280px;
             background: var(--card-bg);
-            padding: 20px;
+            padding: 2rem 1.5rem;
             height: 100vh;
+            position: sticky;
+            top: 0;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            gap: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            gap: 1.5rem;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
         }
 
         .sidebar h2 {
-            font-size: 1.6rem;
-            color: var(--accent);
-            font-weight: 700;
-            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 2rem;
         }
 
-        .sidebar a {
-            font-size: 1rem;
-            padding: 12px 15px;
+        .nav-link {
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 1rem 1.25rem;
             width: 100%;
-            text-align: left;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             color: var(--text-primary);
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .sidebar a:hover {
+        .nav-link:hover {
             background: var(--hover-bg);
             color: var(--hover-text);
-            transform: scale(1.03);
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            border-color: var(--primary);
         }
 
-        .sidebar a.disabled {
+        .nav-link.disabled {
             background: rgba(255, 255, 255, 0.05);
             color: var(--text-secondary);
             cursor: not-allowed;
-            pointer-events: none;
+            opacity: 0.7;
+            transform: none;
+            box-shadow: none;
         }
 
         .content {
             flex-grow: 1;
-            padding: 40px;
+            padding: 3rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
+            background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.1), transparent);
         }
 
-        .content h1 {
-            font-size: 3rem;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        .welcome-title {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease;
         }
 
-        .content p {
-            font-size: 1.2rem;
+        .welcome-text {
+            font-size: 1.3rem;
             color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
         }
 
         .error-message {
             font-size: 1.2rem;
-            color: #ef4444;
+            color: var(--error);
             font-weight: 600;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            animation: fadeIn 0.5s ease;
         }
 
         footer {
             position: fixed;
             bottom: 0;
             width: 100%;
-            padding: 1rem;
+            padding: 1.25rem;
             text-align: center;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
             font-size: 1rem;
             color: var(--text-secondary);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
         }
 
         footer a {
@@ -135,31 +161,81 @@
             text-decoration: none;
             font-weight: 600;
             margin: 0 10px;
-            transition: color 0.3s ease;
+            position: relative;
         }
 
-        footer a:hover {
-            color: var(--hover-text);
-            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+        footer a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        footer a:hover::after {
+            width: 100%;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 1.5rem;
+            }
+
+            .welcome-title {
+                font-size: 2.5rem;
+            }
+
+            .content {
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
-            <h2>Navigation</h2>
-            <a id="panelLink" href="#"><i class="fa-solid fa-chart-pie"></i> Panel</a>
-            <a href="/"><i class="fa-solid fa-house"></i> Home</a>
-            <a href="/logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+            <h2>VelocityDash</h2>
+            <a id="panelLink" class="nav-link" href="#"><i class="fa-solid fa-chart-pie"></i> Panel</a>
+            <a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home</a>
+            <a class="nav-link" href="/logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
         </div>
         <div class="content">
-            <h1>Welcome, <span id="username-placeholder">Guest</span>!</h1>
-            <p>Explore the dashboard to manage your settings and view analytics.</p>
-            <p class="error-message" id="error-message-placeholder" style="display: none;">An error occurred. Please try again later.</p>
+            <h1 class="welcome-title">Welcome, <span id="username-placeholder">Guest</span>!</h1>
+            <p class="welcome-text">Welcome to your Dashboard!</p>
+            <p class="error-message" id="error-message-placeholder" style="display: none;"></p>
         </div>
     </div>
     <footer>
-        &copy; 2023 VelocityDashboard. All rights reserved.</a>
+        &copy; 2024 VelocityDashboard. All rights reserved.
     </footer>
     <script>
         fetch('/panelUrl')
@@ -169,14 +245,13 @@
                 if (data.panelUrl) {
                     panelLink.href = data.panelUrl;
                 } else {
-                    panelLink.textContent = "Panel (Not Configured)";
+                    panelLink.innerHTML = '<i class="fa-solid fa-chart-pie"></i> Panel (Not Configured)';
                     panelLink.classList.add('disabled');
                 }
             })
             .catch(error => {
-                console.error('Error fetching panel URL:', error);
                 const panelLink = document.getElementById('panelLink');
-                panelLink.textContent = "Panel (Error)";
+                panelLink.innerHTML = '<i class="fa-solid fa-chart-pie"></i> Panel (Error)';
                 panelLink.classList.add('disabled');
             });
 
