@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 require('dotenv').config();
 const isAuthenticated = require('./middleware/auth');
+const router = express.Router();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -114,7 +115,11 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/dashboard', isAuthenticated, (req, res) => {
-    res.send('Dashboard');
+    if (req.session.authenticated) {
+        res.render('dashboard', { username: req.session.username, errorMessage: null });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 app.get('/panelUrl', (req, res) => {
