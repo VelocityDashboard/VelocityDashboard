@@ -100,11 +100,11 @@ sudo systemctl status velocitydashboard
 
 ### 7. Future Development (V2)
 
-*   Server management
 *   Resource monitoring
 *   In-dashboard user management
 *   UI/UX improvements
 *   Server creation (V3)
+*   Server management (V3)
 *   Ad detector
 *   VPN blocker
 *   Temp mail detector
