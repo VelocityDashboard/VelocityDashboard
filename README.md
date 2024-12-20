@@ -98,14 +98,15 @@ sudo systemctl status velocitydashboard
 *   Other Errors: Check the server console (`sudo journalctl -u velocitydashboard`).
 *   API Errors: Verify `PANEL_URL` and `API_KEY`. Check API key permissions.
 
-### 7. Future Development
+### 7. Future Development (V2)
 
 *   Server management
 *   Resource monitoring
 *   In-dashboard user management
 *   UI/UX improvements
-*   Server creation
+*   Server creation (V3)
 *   Ad detector
 *   VPN blocker
 *   Temp mail detector
 *   Higher seurity
+*   We might use Firebase for the Database instead of SQLite3. (V3)
