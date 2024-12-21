@@ -7,179 +7,165 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #4f46e5;
-            --secondary: #7c3aed;
-            --accent: #06b6d4;
-            --background: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --hover-bg: rgba(79, 70, 229, 0.2);
-            --hover-text: #ffffff;
-            --error: #ef4444;
-            --success: #22c55e;
+            --primary-hsl: 240 84% 59%;
+            --primary: hsl(var(--primary-hsl));
+            --secondary: hsl(265 84% 58%);
+            --accent: hsl(187 84% 43%);
+            --background: hsl(222 47% 11%);
+            --card-bg: hsl(217 33% 17%);
+            --text-primary: hsl(210 40% 98%);
+            --text-secondary: hsl(217 22% 65%);
+            --error: hsl(0 84% 60%);
+            --success: hsl(142 71% 45%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: all 0.3s ease;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--background);
             color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            overflow-x: hidden;
+            min-height: 100dvh;
+            display: grid;
+            grid-template-columns: auto 1fr;
             line-height: 1.6;
         }
 
-        .container {
-            display: flex;
-            width: 100%;
-            position: relative;
-        }
-
         .sidebar {
-            width: 280px;
             background: var(--card-bg);
-            padding: 2rem 1.5rem;
-            height: 100vh;
+            padding: 2rem;
+            height: 100dvh;
             position: sticky;
             top: 0;
+            width: 300px;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+            border-right: 1px solid hsl(var(--primary-hsl) / 0.2);
+            backdrop-filter: blur(8px);
         }
 
-        .sidebar h2 {
+        .logo {
             font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
             background: linear-gradient(135deg, var(--accent), var(--primary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            font-weight: 800;
-            letter-spacing: -0.5px;
             margin-bottom: 2rem;
         }
 
         .nav-link {
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             padding: 1rem 1.25rem;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.08);
+            background: hsl(var(--primary-hsl) / 0.1);
             color: var(--text-primary);
-            border-radius: 12px;
+            border-radius: 1rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.75rem;
             font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid hsl(var(--primary-hsl) / 0.2);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .nav-link:hover {
-            background: var(--hover-bg);
-            color: var(--hover-text);
-            transform: translateX(5px);
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-            border-color: var(--primary);
+            background: hsl(var(--primary-hsl) / 0.2);
+            transform: translateX(4px);
+            border-color: hsl(var(--primary-hsl) / 0.4);
+            box-shadow: 
+                0 4px 12px hsl(var(--primary-hsl) / 0.2),
+                0 0 0 2px hsl(var(--primary-hsl) / 0.2);
         }
 
         .nav-link.disabled {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-secondary);
+            opacity: 0.5;
             cursor: not-allowed;
-            opacity: 0.7;
+            background: hsl(var(--primary-hsl) / 0.05);
             transform: none;
             box-shadow: none;
         }
 
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100dvh;
+        }
+
         .content {
-            flex-grow: 1;
+            flex: 1;
             padding: 3rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.1), transparent);
+            position: relative;
+            isolation: isolate;
+        }
+
+        .content::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                circle at top right,
+                hsl(var(--primary-hsl) / 0.15),
+                transparent 60%
+            );
+            z-index: -1;
         }
 
         .welcome-title {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            line-height: 1.1;
             background: linear-gradient(135deg, var(--text-primary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             margin-bottom: 1.5rem;
             font-weight: 800;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            animation: fadeInUp 0.8s ease;
+            animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .welcome-text {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2vw, 1.25rem);
             color: var(--text-secondary);
-            max-width: 600px;
+            max-width: 35ch;
             line-height: 1.8;
-            animation: fadeInUp 0.8s ease 0.2s backwards;
+            animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s backwards;
         }
 
         .error-message {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--error);
-            font-weight: 600;
+            font-weight: 500;
             margin-top: 1.5rem;
-            padding: 1rem 2rem;
-            background: rgba(239, 68, 68, 0.1);
-            border-radius: 8px;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            animation: fadeIn 0.5s ease;
+            padding: 1rem 1.5rem;
+            background: hsl(0 84% 60% / 0.1);
+            border-radius: 0.75rem;
+            border: 1px solid hsl(0 84% 60% / 0.2);
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(8px);
         }
 
         footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            padding: 1.25rem;
+            padding: 1rem;
             text-align: center;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(12px);
-            font-size: 1rem;
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 100;
+            background: hsl(222 47% 11% / 0.8);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid hsl(var(--primary-hsl) / 0.2);
         }
 
-        footer a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            margin: 0 10px;
-            position: relative;
-        }
-
-        footer a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        footer a:hover::after {
-            width: 100%;
-        }
-
-        @keyframes fadeInUp {
+        @keyframes slideUp {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -191,52 +177,45 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
+            body {
+                grid-template-columns: 1fr;
             }
 
             .sidebar {
-                width: 100%;
                 height: auto;
+                width: 100%;
+                position: static;
                 padding: 1.5rem;
-            }
-
-            .welcome-title {
-                font-size: 2.5rem;
             }
 
             .content {
                 padding: 2rem 1.5rem;
+                min-height: 60dvh;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <h2>VelocityDash</h2>
-            <a id="panelLink" class="nav-link" href="#"><i class="fa-solid fa-chart-pie"></i> Panel</a>
-            <a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home</a>
-            <a class="nav-link" href="/logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
-        </div>
-        <div class="content">
+    <div class="sidebar">
+        <h2 class="logo">VelocityDash</h2>
+        <a id="panelLink" class="nav-link" href="#"><i class="fa-solid fa-chart-pie"></i> Panel</a>
+        <a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home</a>
+        <a class="nav-link" href="/logout"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+    </div>
+    <div class="main-wrapper">
+        <main class="content">
             <h1 class="welcome-title">Welcome, <span id="username-placeholder">Guest</span>!</h1>
             <p class="welcome-text">Welcome to your Dashboard!</p>
             <p class="error-message" id="error-message-placeholder" style="display: none;"></p>
-        </div>
+        </main>
+        <footer>&copy; 2024 VelocityDashboard</footer>
     </div>
-    <footer>
-        &copy; 2024 VelocityDashboard. All rights reserved.
-    </footer>
+
     <script>
         fetch('/panelUrl')
             .then(response => response.json())
