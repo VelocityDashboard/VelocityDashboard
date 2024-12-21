@@ -89,7 +89,6 @@ sudo systemctl status velocitydashboard
 *   Added middleware auth.js
 *   Improved UI
 *   More stable and faster
-*   Added: VelocityDashboard Self Destruct (Use only if you want to remove the dashboard, if you mistakely ran this. This is the last-resort for the dashboard)
 *   Security Status: Stable
 
 ### 6. Troubleshooting
